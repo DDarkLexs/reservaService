@@ -21,6 +21,8 @@ model Utilizador {
   email String @unique
   tipo  UserType
   senha String
+  created   DateTime    @default(now())
+  updated   DateTime    @updatedAt
 }
 
 
