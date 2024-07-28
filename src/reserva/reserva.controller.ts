@@ -1,16 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ReservaService } from './reserva.service';
 import { CreateReservaDto } from './dto/create-reserva.dto';
 import { UpdateReservaDto } from './dto/update-reserva.dto';
+import { Autorizacao } from 'src/authorization/authorization.decorator';
+import { $Enums } from '@prisma/client';
 
 @Controller('reserva')
 export class ReservaController {
   constructor(private readonly reservaService: ReservaService) {}
 
-  @Post()
-  create(@Body() createReservaDto: CreateReservaDto) {
-    return this.reservaService.create(createReservaDto);
+  @Post("servico")
+  @Autorizacao($Enums.UserType.CLIENTE)
+  @UsePipes(ValidationPipe)
+  create(@Body() createReservaDto: CreateReservaDto,@Req() req: any) {
+    return this.reservaService.create(createReservaDto,req["usuario"].utilizadorId);
   }
+  
 
   @Get()
   findAll() {
