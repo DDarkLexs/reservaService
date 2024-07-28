@@ -24,8 +24,7 @@ model Utilizador {
   created      DateTime  @default(now())
   updated      DateTime  @updatedAt
   servico      Servico[]
-  cliente Reserva[] @relation(name: "cliente")
-  provedor Reserva[] @relation(name: "provedor")
+  cliente      Reserva[] @relation(name: "cliente")
 }
 
 model Servico {
@@ -39,16 +38,13 @@ model Servico {
 }
 
 model Reserva {
-  reservaId         Int         @id @default(autoincrement())
-  servico           Servico?    @relation(fields: [servicoId], references: [servicoId])
-  preco             Float
-  cliente           Utilizador? @relation(name: "cliente", fields: [clienteId], references: [utilizadorId])
-  provedor          Utilizador? @relation(name: "provedor", fields: [provedorId], references: [utilizadorId])
-  servicoId  Int?
-  provedorId        Int?
-  clienteId         Int?
+  reservaId Int         @id @default(autoincrement())
+  preco     Float
+  servico   Servico?    @relation(fields: [servicoId], references: [servicoId])
+  cliente   Utilizador? @relation(name: "cliente", fields: [clienteId], references: [utilizadorId])
+  clienteId Int?
+  servicoId Int?
 }
-
 
 enum UserType {
   CLIENTE

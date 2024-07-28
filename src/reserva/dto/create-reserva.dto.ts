@@ -1,4 +1,8 @@
-import { Reserva } from "@prisma/client";
+import { Reserva } from '@prisma/client';
 
-export class CreateReservaDto implements Pick<Reserva, "utilizadorId" | "" > {}
- 
+export class CreateReservaDto implements Omit<Reserva, 'reservaId'> {
+  clienteId: number;
+  preco: number;
+  provedorId: number;
+  servicoId: number;
+}
