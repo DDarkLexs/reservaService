@@ -9,9 +9,11 @@ export class CreateUsuarioDto
 
   @IsNotEmpty({ message: 'Por favor, informe o seu NIF.' })
   nif: string;
-
+  
+  
   @IsEmail({}, { message: 'Por favor, informe um email válido.' })
   email: string;
+
 
   @IsEnum($Enums.UserType, {
     message: 'Por favor, selecione um tipo de usuário válido (CLIENTE).',

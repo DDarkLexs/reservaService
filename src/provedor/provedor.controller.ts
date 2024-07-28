@@ -22,9 +22,9 @@ export class ProvedorController {
     return this.provedorService.findAll(req["usuario"].utilizadorId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.provedorService.findOne(+id);
+  @Get('servico/:id')
+  findOne(@Param('id') id: number) {
+    return this.provedorService.findOne(id);
   }
 
   @Patch(':id')

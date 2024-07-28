@@ -4,9 +4,10 @@ import { PrismaService } from './prisma/prisma.service';
 import { HashService } from './hash/hash.service';
 import { AuthorizationModule } from './authorization/authorization.module';
 import { ProvedorModule } from './provedor/provedor.module';
+import { ReservaModule } from './reserva/reserva.module';
 
 @Module({
-  imports: [AuthModule, AuthorizationModule, ProvedorModule],
+  imports: [AuthModule, AuthorizationModule, ProvedorModule, ReservaModule],
   controllers: [],
   providers: [PrismaService, HashService],
 })

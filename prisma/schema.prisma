@@ -20,6 +20,7 @@ model Utilizador {
   email        String    @unique
   tipo         UserType
   senha        String
+  saldo        Float     @default(0)
   created      DateTime  @default(now())
   updated      DateTime  @updatedAt
   servico      Servico[]
@@ -51,4 +52,11 @@ model Reserva {
 enum UserType {
   CLIENTE
   PRESTADOR_DE_SERVICOS
+}
+
+enum ReservaStatus {
+  PENDENTE
+  ACEITO
+  CONCLUIDO
+  RECUSADO
 }

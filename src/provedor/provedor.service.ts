@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProvedorDto } from './dto/create-provedor.dto';
 import { UpdateProvedorDto } from './dto/update-provedor.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -22,7 +22,11 @@ export class ProvedorService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} provedor`;
+    const provedor = this.prisma.servico.findUnique({where: {servicoId: id}});
+    if (!provedor) {
+      throw new NotFoundException('Provedor não encontrado');
+    }
+    return provedor;
   }
 
   update(id: number, updateProvedorDto: UpdateProvedorDto) {
