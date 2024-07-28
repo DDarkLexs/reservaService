@@ -23,17 +23,29 @@ model Utilizador {
   created      DateTime  @default(now())
   updated      DateTime  @updatedAt
   servico      Servico[]
+  cliente Reserva[] @relation(name: "cliente")
+  provedor Reserva[] @relation(name: "provedor")
 }
 
 model Servico {
-  servicoId              Int         @id @default(autoincrement())
-  nome                   String
-  descricao              String
-  preco                  Float
-  Utilizador             Utilizador? @relation(fields: [utilizadorId], references: [utilizadorId])
+  servicoId    Int         @id @default(autoincrement())
+  nome         String
+  descricao    String
+  preco        Float
+  Utilizador   Utilizador? @relation(fields: [utilizadorId], references: [utilizadorId])
   utilizadorId Int?
+  reserva      Reserva[]
 }
 
+model Reserva {
+  reservaId         Int         @id @default(autoincrement())
+  Servico           Servico?    @relation(fields: [servicoServicoId], references: [servicoId])
+  servicoServicoId  Int?
+  cliente           Utilizador? @relation(name: "cliente", fields: [clienteId], references: [utilizadorId])
+  provedor          Utilizador? @relation(name: "provedor", fields: [provedorId], references: [utilizadorId])
+  provedorId        Int?
+  clienteId         Int?
+}
 
 
 enum UserType {
