@@ -13,14 +13,13 @@ export class ProvedorController {
   @Autorizacao($Enums.UserType.PRESTADOR_DE_SERVICOS)
   @UsePipes(ValidationPipe)
   createServico(@Body() createProvedorDto: CreateProvedorDto, @Req() req: any) {
-
-
     return this.provedorService.create(createProvedorDto, req["usuario"].utilizadorId);
   }
 
-  @Get()
-  findAll() {
-    return this.provedorService.findAll();
+  @Get("servico")
+  @Autorizacao($Enums.UserType.PRESTADOR_DE_SERVICOS)
+  findAll(@Req() req: any) {
+    return this.provedorService.findAll(req["usuario"].utilizadorId);
   }
 
   @Get(':id')

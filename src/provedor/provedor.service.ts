@@ -17,8 +17,8 @@ export class ProvedorService {
     });
   }
 
-  findAll() {
-    return `This action returns all provedor`;
+  findAll(utilizadorId: number) {
+    return this.prisma.servico.findMany({where: {utilizadorId}});
   }
 
   findOne(id: number) {
