@@ -1,5 +1,5 @@
 import { $Enums, Utilizador } from '@prisma/client';
-import { IsEmail, IsEnum, IsNotEmpty, MinLength } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsNumber, IsOptional, MinLength } from 'class-validator';
 
 export class CreateUsuarioDto
   implements Omit<Utilizador, 'created' | 'updated' | 'utilizadorId'>
@@ -9,8 +9,10 @@ export class CreateUsuarioDto
 
   @IsNotEmpty({ message: 'Por favor, informe o seu NIF.' })
   nif: string;
-  
-  
+  @IsOptional({ message: 'Por favor, informe o seu saldo.' })
+  @IsNumber({}, { message: 'O saldo deve ser um número.' })
+  saldo: number;
+
   @IsEmail({}, { message: 'Por favor, informe um email válido.' })
   email: string;
 
