@@ -13,17 +13,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Utilizador {
-  utilizadorId Int @id @default(autoincrement())
-  nome  String
-  nif   String @unique
-  email String @unique
-  tipo  UserType
-  senha String
-  created   DateTime    @default(now())
-  updated   DateTime    @updatedAt
+  utilizadorId Int       @id @default(autoincrement())
+  nome         String
+  nif          String    @unique
+  email        String    @unique
+  tipo         UserType
+  senha        String
+  created      DateTime  @default(now())
+  updated      DateTime  @updatedAt
+  servico      Servico[]
 }
+
+model Servico {
+  servicoId              Int         @id @default(autoincrement())
+  nome                   String
+  descricao              String
+  Utilizador             Utilizador? @relation(fields: [utilizadorId], references: [utilizadorId])
+  utilizadorId Int?
+}
+
 
 
 enum UserType {
