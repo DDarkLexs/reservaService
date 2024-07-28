@@ -29,6 +29,7 @@ model Servico {
   servicoId              Int         @id @default(autoincrement())
   nome                   String
   descricao              String
+  preco                  Float
   Utilizador             Utilizador? @relation(fields: [utilizadorId], references: [utilizadorId])
   utilizadorId Int?
 }
