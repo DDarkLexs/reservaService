@@ -40,6 +40,8 @@ export class ReservaService {
     const saldo = await this.prisma.utilizador.findFirst({
       where: { utilizadorId },
     });
+    console.log(utilizadorId);
+    
     return saldo.saldo;
   }
 
@@ -62,6 +64,14 @@ export class ReservaService {
     return reserva
   }
 
+  findAllDone(id: number) {
+    return this.prisma.reserva.findMany({
+      where: { 
+        clienteId: id,
+         estado: $Enums.ReservaStatus.CONCLUIDO 
+        },
+    })
+  }
   findAll() {
     return `This action returns all reserva`;
   }
