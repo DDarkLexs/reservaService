@@ -6,6 +6,7 @@ import {
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateReservaDto } from './dto/create-reserva.dto';
 import { UpdateReservaDto } from './dto/update-reserva.dto';
+import { $Enums } from '@prisma/client';
 
 @Injectable()
 export class ReservaService {
@@ -30,6 +31,7 @@ export class ReservaService {
         ...createReservaDto,
         preco: servico.preco,
         clienteId: utilizadorId,
+        estado: $Enums.ReservaStatus.PENDENTE,
       },
     });
     return reserva;
@@ -48,12 +50,28 @@ export class ReservaService {
     });
   }
 
+  async atualizarEstado(id: number,utilizadorId: number, estado: $Enums.ReservaStatus) {
+    const data = await this.findOne(id);
+    if (!data) {
+      throw new NotFoundException('Reserva inexistente');
+    }
+    const reserva = this.prisma.reserva.update({
+      where: { reservaId: id,clienteId: utilizadorId },
+      data: { estado },
+    })
+    return reserva
+  }
+
   findAll() {
     return `This action returns all reserva`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} reserva`;
+  async findOne(id: number) {
+    const reserva = await this.prisma.reserva.findFirst({
+      where: { reservaId: id },
+    })
+
+    return reserva;
   }
 
   update(id: number, updateReservaDto: UpdateReservaDto) {

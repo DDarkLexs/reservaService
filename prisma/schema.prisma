@@ -40,6 +40,7 @@ model Servico {
 model Reserva {
   reservaId Int         @id @default(autoincrement())
   preco     Float
+  estado    ReservaStatus    
   servico   Servico?    @relation(fields: [servicoId], references: [servicoId])
   cliente   Utilizador? @relation(name: "cliente", fields: [clienteId], references: [utilizadorId])
   clienteId Int?

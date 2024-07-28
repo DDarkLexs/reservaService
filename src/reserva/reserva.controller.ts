@@ -1,7 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Req,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { ReservaService } from './reserva.service';
 import { CreateReservaDto } from './dto/create-reserva.dto';
-import { UpdateReservaDto } from './dto/update-reserva.dto';
+import { UpdateReservaDto, UpdateReservaEstadoDto } from './dto/update-reserva.dto';
 import { Autorizacao } from 'src/authorization/authorization.decorator';
 import { $Enums } from '@prisma/client';
 
@@ -9,13 +20,26 @@ import { $Enums } from '@prisma/client';
 export class ReservaController {
   constructor(private readonly reservaService: ReservaService) {}
 
-  @Post("servico")
+  @Post('servico')
   @Autorizacao($Enums.UserType.CLIENTE)
   @UsePipes(ValidationPipe)
-  create(@Body() createReservaDto: CreateReservaDto,@Req() req: any) {
-    return this.reservaService.create(createReservaDto,req["usuario"].utilizadorId);
+  create(@Body() createReservaDto: CreateReservaDto, @Req() req: any) {
+    return this.reservaService.create(
+      createReservaDto,
+      req['usuario'].utilizadorId,
+    );
   }
-  
+
+  @Patch('servico/estado')
+  @Autorizacao($Enums.UserType.CLIENTE)
+  @UsePipes(ValidationPipe)
+  updateReserva(@Body() update: UpdateReservaEstadoDto, @Req() req: any) {
+    return this.reservaService.atualizarEstado(
+      update.reservaId,
+      req['usuario'].utilizadorId,
+      update.estado,
+    );
+  }
 
   @Get()
   findAll() {
